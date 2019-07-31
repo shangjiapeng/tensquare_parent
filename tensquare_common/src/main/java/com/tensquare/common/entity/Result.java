@@ -1,4 +1,4 @@
-package entity;
+package com.tensquare.common.entity;
 
 /**
  * <p>返回结果实体类</p>
@@ -7,16 +7,16 @@ package entity;
  * @Since: 2019-07-30 15:57
  */
 
-public class Result {
+public class Result<T> {
     private boolean flag;//是否成功
     private Integer code;// 返回码
     private String message;//返回信息
-    private Object data;// 返回数据
+    private T data;// 返回数据
 
     public Result() {
     }
 
-    public Result(boolean flag, Integer code, String message, Object data) {
+    public Result(boolean flag, Integer code, String message, T data) {
         this.flag = flag;
         this.code = code;
         this.message = message;
@@ -47,11 +47,11 @@ public class Result {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }
