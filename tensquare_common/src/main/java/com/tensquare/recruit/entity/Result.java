@@ -1,4 +1,4 @@
-package com.tensquare.common.entity;
+package com.tensquare.recruit.entity;
 
 /**
  * <p>返回结果实体类</p>

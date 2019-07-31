@@ -1,4 +1,4 @@
-package com.tensquare.common.entity;
+package com.tensquare.recruit.entity;
 
 import java.util.List;
 

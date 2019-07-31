@@ -1,4 +1,4 @@
-package com.tensquare.base.config.aop;
+package com.tensquare.recruit.config.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -23,7 +23,7 @@ public class WebLogAspect {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut("execution(public * com.tensquare.base.controller..*.*(..))")
+    @Pointcut("execution(public * com.tensquare.*.controller..*.*(..))")
     public void webLog(){
 
     }

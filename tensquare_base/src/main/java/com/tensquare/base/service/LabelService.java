@@ -5,11 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.tensquare.base.pojo.Label;
-import com.tensquare.common.util.IdWorker;
+import com.tensquare.recruit.util.IdWorker;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;

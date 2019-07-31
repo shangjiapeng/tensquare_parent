@@ -1,4 +1,4 @@
-package com.tensquare.base.config.redis;
+package com.tensquare.recruit.config.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

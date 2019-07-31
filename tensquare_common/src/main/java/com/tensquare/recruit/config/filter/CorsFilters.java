@@ -1,4 +1,4 @@
-package com.tensquare.base.config.filter;
+package com.tensquare.recruit.config.filter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

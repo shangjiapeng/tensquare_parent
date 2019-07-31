@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>tensquare_base</artifactId>
+    <artifactId>tensquare_recruit</artifactId>
 
     <dependencies>
         <!--引入对common模块的依赖-->
@@ -20,6 +20,4 @@
 
 
     </dependencies>
-
-
 </project>
