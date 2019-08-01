@@ -2,7 +2,7 @@ package com.tensquare.recruit.service;
 
 import com.tensquare.recruit.dao.EnterpriseDao;
 import com.tensquare.recruit.pojo.Enterprise;
-import com.tensquare.recruit.util.IdWorker;
+import com.tensquare.common.util.IdWorker;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

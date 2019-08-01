@@ -1,8 +1,8 @@
 package com.tensquare.base.controller;
 
-import com.tensquare.recruit.entity.PageResult;
-import com.tensquare.recruit.entity.Result;
-import com.tensquare.recruit.entity.StatusCode;
+import com.tensquare.common.entity.PageResult;
+import com.tensquare.common.entity.Result;
+import com.tensquare.common.entity.StatusCode;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import com.tensquare.base.pojo.Label;

@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @Since: 2019-07-31 18:30
  */
 @Entity
-@Table(name = "tb_label")
+@Table(name = "tb_recruit")
 @Data
 @ToString
 public class Recruit {
@@ -27,7 +27,7 @@ public class Recruit {
     private String type; //任职方式
     private String address; //办公地址
     private String eid; //企业ID
-    private String createtime; //发布日期
+    private java.util.Date createtime; //发布日期
     private String state; //状态 0:关闭 1:开启 2:推荐
     private String url; //原网址
     private String label; //标签

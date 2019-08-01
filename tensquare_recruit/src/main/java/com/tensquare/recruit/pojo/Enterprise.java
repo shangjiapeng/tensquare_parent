@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @Since: 2019-07-31 18:24
  */
 @Entity
-@Table(name = "tb_label")
+@Table(name = "tb_enterprise")
 @Data
 @ToString
 public class Enterprise {

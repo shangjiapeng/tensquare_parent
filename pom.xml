@@ -10,6 +10,11 @@
         <module>tensquare_common</module>
         <module>tensquare_base</module>
         <module>tensquare_recruit</module>
+        <module>tensquare_gathering</module>
+        <module>tensquare_friend</module>
+        <module>tensquare_article</module>
+        <module>tensquare_qa</module>
+        <module>tensquare_user</module>
     </modules>
     <packaging>pom</packaging>
     <name>tensquare_parent</name>
@@ -74,6 +79,15 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <repositories>
         <repository>

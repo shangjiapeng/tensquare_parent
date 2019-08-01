@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.tensquare.base.pojo.Label;
-import com.tensquare.recruit.util.IdWorker;
+import com.tensquare.common.util.IdWorker;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
