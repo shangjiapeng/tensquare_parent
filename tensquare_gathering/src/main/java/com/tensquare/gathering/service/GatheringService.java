@@ -11,6 +11,8 @@ import javax.persistence.criteria.Root;
 import com.tensquare.gathering.dao.GatheringDao;
 import com.tensquare.common.util.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,12 +21,13 @@ import com.tensquare.gathering.pojo.Gathering;
 
 /**
  * 服务层
- * 
- * @author Administrator
- *
+ * Spring Cache使用方法与Spring对事务管理的配置相似。Spring Cache的核心就是对某个方法进行缓存，
+ * 其实质就是缓存该方法的返回结果，并把方法参数和结果用键值对的 方式存放到缓存中，
+ * 当再次调用该方法使用相应的参数时，就会直接从缓存里面取出指 定的结果进行返回
+ * @author shangjiapeng
  */
 @Service
-public class GatheringService {
+public class 	GatheringService {
 
 	@Autowired
 	private GatheringDao gatheringDao;
@@ -68,8 +71,11 @@ public class GatheringService {
 	/**
 	 * 根据ID查询实体
 	 * @param id
+	 * @Cacheable-------使用这个注解的方法在执行后会缓存其返回结果。
+	 * @CacheEvict--------使用这个注解的方法在其执行前或执行后移除Spring Cache中的某些元素。
 	 * @return
 	 */
+	@Cacheable(value = "gathering",key = "#id")  //当此方法第一次运行，在 缓存中没有找到对应的value和key，则将查询结果放入缓存
 	public Gathering findById(String id) {
 		return gatheringDao.findById(id).get();
 	}
@@ -86,7 +92,9 @@ public class GatheringService {
 	/**
 	 * 修改
 	 * @param gathering
+	 * 当我们对数据进行修改,删改的时候，需要更新缓存。其实更新缓存也就是清除缓存
 	 */
+	@CacheEvict(value = "gathering",key = "#gathering.id")
 	public void update(Gathering gathering) {
 		gatheringDao.save(gathering);
 	}
@@ -95,6 +103,7 @@ public class GatheringService {
 	 * 删除
 	 * @param id
 	 */
+	@CacheEvict(value="gathering",key="#id")
 	public void deleteById(String id) {
 		gatheringDao.deleteById(id);
 	}
@@ -105,7 +114,6 @@ public class GatheringService {
 	 * @return
 	 */
 	private Specification<Gathering> createSpecification(Map searchMap) {
-
 		return new Specification<Gathering>() {
 
 			@Override
@@ -152,7 +160,8 @@ public class GatheringService {
 
 			}
 		};
-
 	}
+
+
 
 }

@@ -6,6 +6,7 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * <p>招聘企业实体类</p>
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "tb_enterprise")
 @Data
 @ToString
-public class Enterprise {
+public class Enterprise implements Serializable {
     @Id
     private String id; //id
     private String name; //企业名称

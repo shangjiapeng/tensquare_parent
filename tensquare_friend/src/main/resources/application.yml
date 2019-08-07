@@ -1,8 +1,8 @@
 server:
-  port: 9005
+  port: 9006
 spring:
   application:
-    name: tensquare-base #指定服务名称
+    name: tensquare_friend #指定服务名称
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/tensquare_friend?characterEncoding=utf-8

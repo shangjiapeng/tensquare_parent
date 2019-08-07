@@ -6,6 +6,7 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * <p>招聘表实体类</p>
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "tb_recruit")
 @Data
 @ToString
-public class Recruit {
+public class Recruit implements Serializable {
     @Id
     private String id; //id
     private String jobname; //职位名称
