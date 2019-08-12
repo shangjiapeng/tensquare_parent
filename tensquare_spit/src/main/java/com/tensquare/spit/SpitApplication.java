@@ -1,22 +1,22 @@
-package com.tensquare.gathering;
+package com.tensquare.spit;
 
 import com.tensquare.common.util.IdWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 /**
- * <p></p>
+ * <p>吐槽,评论模块启动类</p>
  *
  * @Author: ShangJiaPeng
- * @Since: 2019-08-01 10:38
+ * @Since: 2019-08-08 16:41
  */
-@SpringBootApplication()
-@EnableCaching   //开启springBoot缓存的支持
-public class GatheringApplication {
+@SpringBootApplication(exclude= DataSourceAutoConfiguration.class)
+public class SpitApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(GatheringApplication.class,args);
+        SpringApplication.run(SpitApplication.class,args);
     }
 
     @Bean

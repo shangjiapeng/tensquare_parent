@@ -12,3 +12,7 @@ spring:
     database: mysql
     show-sql: true
     generate-ddl: true
+    #统一时间的格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

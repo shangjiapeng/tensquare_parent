@@ -1,7 +1,8 @@
 package com.tensquare.user.controller;
-import java.util.List;
 import java.util.Map;
-
+import com.tensquare.common.entity.PageResult;
+import com.tensquare.common.entity.Result;
+import com.tensquare.common.entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,13 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.tensquare.user.pojo.User;
 import com.tensquare.user.service.UserService;
 
-import entity.PageResult;
-import entity.Result;
-import entity.StatusCode;
 /**
  * user控制器层
  * @author Administrator
@@ -37,7 +34,7 @@ public class UserController {
 	 */
 	@RequestMapping(method= RequestMethod.GET)
 	public Result findAll(){
-		return new Result(true,StatusCode.OK,"查询成功",userService.findAll());
+		return new Result(true, StatusCode.OK,"查询成功",userService.findAll());
 	}
 	
 	/**
@@ -78,10 +75,10 @@ public class UserController {
 	 * 增加
 	 * @param user
 	 */
-	@RequestMapping(method=RequestMethod.POST)
-	public Result add(@RequestBody User user  ){
-		userService.add(user);
-		return new Result(true,StatusCode.OK,"增加成功");
+	@RequestMapping(value = "register/{code}",method=RequestMethod.POST)
+	public Result add(@RequestBody User user ,@PathVariable String code ){
+		userService.add(user,code);
+		return new Result(true,StatusCode.OK,"注册成功");
 	}
 	
 	/**
@@ -103,6 +100,17 @@ public class UserController {
 	public Result delete(@PathVariable String id){
 		userService.deleteById(id);
 		return new Result(true,StatusCode.OK,"删除成功");
+	}
+
+	/**
+	 * 发送短信验证码
+	 * @param mobile
+	 * @return
+	 */
+	@RequestMapping(value="sendSms/{mobile}",method= RequestMethod.POST)
+	public Result sendSms(@PathVariable String mobile){
+		userService.sendSms(mobile);
+		return new Result(true,StatusCode.OK,"发送短信验证码成功");
 	}
 	
 }

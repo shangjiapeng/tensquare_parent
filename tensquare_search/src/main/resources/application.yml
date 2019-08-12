@@ -1,0 +1,8 @@
+server:
+  port: 9009
+spring:
+  application:
+    name: tensquare_search #指定服务名称
+  data:
+    elasticsearch:
+      cluster-nodes: 127.0.0.1:9300
