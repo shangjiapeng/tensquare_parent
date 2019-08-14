@@ -1,10 +1,13 @@
 package com.tensquare.user.controller;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.tensquare.common.entity.PageResult;
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
+import com.tensquare.common.util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.tensquare.user.pojo.Admin;
 import com.tensquare.user.service.AdminService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * admin控制器层
@@ -28,6 +34,12 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+
+	@Resource
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private HttpServletRequest httpServletRequest;
 	
 	
 	/**
@@ -100,8 +112,51 @@ public class AdminController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.DELETE)
 	public Result delete(@PathVariable String id){
-		adminService.deleteById(id);
-		return new Result(true,StatusCode.OK,"删除成功");
+		try {
+			String authHeader = httpServletRequest.getHeader("Authorization");//获取头信息
+			if (authHeader == null || "".equals(authHeader)) {
+				return new Result(false, StatusCode.ACCESS_ERROR, "权限不足");
+			}
+			//前后端约定:前端请求微服务时需要添加头信息Authorization ,内容为Admin+空格 +token
+			if (!authHeader.startsWith("Admin ")) {
+				return new Result(false, StatusCode.ACCESS_ERROR, "权限不足");
+			}
+			String token = authHeader.substring(6);//提取空格后面的token
+			Claims claims = jwtUtil.parseJWT(token);
+			String roles = (String) claims.get("roles");
+			if (claims == null || !roles.equals("admin")) {
+				return new Result(false, StatusCode.ACCESS_ERROR, "权限不足");
+			}
+			adminService.deleteById(id);
+			return new Result(true, StatusCode.OK, "删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, StatusCode.ERROR, "删除失败");
+		}
 	}
-	
+
+	/**
+	 * 管理员登录密码效验
+	 * @return
+	 */
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public Result login(@RequestBody Map<String,String> loginMap){
+		String mobile = loginMap.get("mobile");
+		String password = loginMap.get("password");
+		Admin admin = adminService.findByLoginnameAndPassword(mobile, password);
+		if (admin!=null){
+			//生成token ,并设置返回
+			String token= jwtUtil.createJWT(admin.getId(),admin.getLoginname(),"admin");//这里的角色可以通过springSecurity获取
+			Map map = new HashMap<>();
+			map.put("token",token);
+			map.put("name",admin.getLoginname());//登录名
+			map.put("role","admin");//角色
+			return new Result(true,StatusCode.OK,"登录成功",map);
+		}else {
+			return new Result(false,StatusCode.LOGIN_ERROR,"用户名或密码错误");
+		}
+	}
+
+
+
 }

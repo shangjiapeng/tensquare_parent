@@ -3,6 +3,7 @@ package com.tensquare.user.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -13,13 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.tensquare.user.dao.AdminDao;
 import com.tensquare.user.pojo.Admin;
 
 /**
  * admin服务层
- * 
+ *
  * @author Administrator
  *
  */
@@ -28,9 +30,12 @@ public class AdminService {
 
 	@Autowired
 	private AdminDao adminDao;
-	
+
 	@Autowired
 	private IdWorker idWorker;
+
+	@Resource
+	private BCryptPasswordEncoder passwordEncoder;
 
 	/**
 	 * 查询全部列表
@@ -40,7 +45,6 @@ public class AdminService {
 		return adminDao.findAll();
 	}
 
-	
 	/**
 	 * 条件查询+分页
 	 * @param whereMap
@@ -54,7 +58,6 @@ public class AdminService {
 		return adminDao.findAll(specification, pageRequest);
 	}
 
-	
 	/**
 	 * 条件查询
 	 * @param whereMap
@@ -79,7 +82,10 @@ public class AdminService {
 	 * @param admin
 	 */
 	public void add(Admin admin) {
-		// admin.setId( idWorker.nextId()+"" ); 雪花分布式ID生成器
+		 admin.setId( idWorker.nextId()+"" ); //雪花分布式ID生成器
+		//密码加密
+		String encodePassword = passwordEncoder.encode(admin.getPassword());
+		admin.setPassword(encodePassword);
 		adminDao.save(admin);
 	}
 
@@ -127,7 +133,7 @@ public class AdminService {
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                 	predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
                 }
-				
+
 				return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
 
 			}
@@ -135,4 +141,22 @@ public class AdminService {
 
 	}
 
+
+	/**
+	 * 根据登陆名和密码查询
+	 * @param loginname
+	 * @param password
+	 * @return
+	 */
+     public Admin findByLoginnameAndPassword(String loginname,String password){
+     	//根据登录用户名查询用户信息
+         Admin admin = adminDao.findByLoginname(loginname);
+         //解密密码,与用户输入的密码进行比对
+         boolean matches = passwordEncoder.matches(password, admin.getPassword());
+         if (admin!=null&&matches){
+             return admin;
+         }else {
+             return null;
+         }
+     }
 }

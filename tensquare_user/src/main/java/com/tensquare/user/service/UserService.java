@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.tensquare.user.dao.UserDao;
 import com.tensquare.user.pojo.User;
@@ -37,6 +38,8 @@ public class UserService {
     private RedisTemplate redisTemplate;
     @Resource
     private RabbitTemplate rabbitTemplate;
+    @Resource
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 查询全部列表
@@ -107,6 +110,10 @@ public class UserService {
         user.setRegdate(new Date());//注册日期
         user.setUpdatedate(new Date());//关系日期
         user.setLastdate(new Date());//最后登录时间
+
+        //密码加密
+        String encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
         userDao.save(user);
     }
 
@@ -187,6 +194,7 @@ public class UserService {
 
     /**
      * 发送短信验证码
+     * @param mobile
      */
     public void sendSms(String mobile) {
         //生成6位短信验证码
@@ -206,6 +214,23 @@ public class UserService {
         map.put("code", code + "");
         rabbitTemplate.convertAndSend("sms", map);
     }
+
+    /**
+     * 根据手机号和密码查询用户信息
+     * @param mobile
+     * @return
+     */
+    public User findByMobileAndPassWord(String mobile,String password){
+        User user = userDao.findByMobile(mobile);
+        boolean matches = passwordEncoder.matches(password, user.getPassword());
+        if (user!=null&&matches){
+            return user;
+        }else {
+            return null;
+        }
+    }
+
+
 
 
 }

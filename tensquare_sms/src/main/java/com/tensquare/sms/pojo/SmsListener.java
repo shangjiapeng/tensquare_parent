@@ -36,7 +36,7 @@ public class SmsListener {
         System.out.println("验证码:"+message.get("code"));
         try {
             smsUtil.sendSms(message.get("mobile"),template_code,sign_name,"{\"number\":\""+message.get("code")+"\"}");
-           //{"number":"+message.get("code")+"};
+           //{"number":"+message.get("code")+"};  此处拼写字符串比较麻烦,容易出错
         } catch (ClientException e) {
             e.printStackTrace();
         }
