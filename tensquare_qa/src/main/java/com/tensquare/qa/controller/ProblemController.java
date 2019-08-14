@@ -5,9 +5,10 @@ import java.util.Map;
 import com.tensquare.common.entity.PageResult;
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
+import com.tensquare.common.util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.tensquare.qa.pojo.Problem;
 import com.tensquare.qa.service.ProblemService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * problem控制器层
@@ -29,6 +33,12 @@ public class ProblemController {
 
     @Autowired
     private ProblemService problemService;
+
+    @Resource
+    private HttpServletRequest httpServletRequest;
+
+    @Resource
+    private JwtUtil jwtUtil;
 
 
     /**
@@ -85,6 +95,11 @@ public class ProblemController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public Result add(@RequestBody Problem problem) {
+        Claims claims= (Claims) httpServletRequest.getAttribute("claims_user");
+        if (claims==null){
+            return new Result(false, StatusCode.ACCESS_ERROR, "无权访问");
+        }
+        problem.setUserid(claims.getId());
         problemService.add(problem);
         return new Result(true, StatusCode.OK, "增加成功");
     }

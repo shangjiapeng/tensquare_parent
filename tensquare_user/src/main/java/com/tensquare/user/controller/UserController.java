@@ -120,7 +120,7 @@ public class UserController {
     public Result delete(@PathVariable String id) {
         //直接获取从请求头中获取admin声明,如果有的话,说明是管理员的身份执行,这样做和AdminController中的删除方法调用鉴权的操作是同一个作用
         Claims claims=(Claims)httpServletRequest.getAttribute("claims_admin");
-        if (claims==null){
+        if (claims==null||"".equals(claims)){
             return new Result(true,StatusCode.ACCESS_ERROR,"无权访问");
         }
         userService.deleteById(id);

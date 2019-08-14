@@ -4,6 +4,7 @@ import java.util.Map;
 import com.tensquare.common.entity.PageResult;
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.tensquare.qa.pojo.Reply;
 import com.tensquare.qa.service.ReplyService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * reply控制器层
  * @author Administrator
@@ -26,7 +31,8 @@ public class ReplyController {
 
 	@Autowired
 	private ReplyService replyService;
-	
+	@Resource
+	private HttpServletRequest httpServletRequest;
 	
 	/**
 	 * 查询全部数据
@@ -77,6 +83,11 @@ public class ReplyController {
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public Result add(@RequestBody Reply reply  ){
+		Claims claims= (Claims) httpServletRequest.getAttribute("claims_user");
+		if (claims==null){
+			return new Result(false, StatusCode.ACCESS_ERROR, "无权访问");
+		}
+		reply.setUserid(claims.getId());
 		replyService.add(reply);
 		return new Result(true,StatusCode.OK,"增加成功");
 	}

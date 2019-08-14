@@ -1,6 +1,7 @@
 package com.tensquare.article;
 
 import com.tensquare.common.util.IdWorker;
+import com.tensquare.common.util.JwtUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,5 +21,10 @@ public class ArticleApplication {
     @Bean
     public IdWorker idWorker(){
         return new IdWorker(1L,1L);
+    }
+
+    @Bean
+    public JwtUtil jwtUtil(){
+        return new JwtUtil();
     }
 }

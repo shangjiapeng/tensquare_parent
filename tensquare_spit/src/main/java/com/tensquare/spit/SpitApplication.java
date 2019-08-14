@@ -1,6 +1,7 @@
 package com.tensquare.spit;
 
 import com.tensquare.common.util.IdWorker;
+import com.tensquare.common.util.JwtUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -22,5 +23,10 @@ public class SpitApplication {
     @Bean
     public IdWorker idWorker(){
         return new IdWorker(1L,1L);
+    }
+
+    @Bean
+    public JwtUtil jwtUtil(){
+        return new JwtUtil();
     }
 }

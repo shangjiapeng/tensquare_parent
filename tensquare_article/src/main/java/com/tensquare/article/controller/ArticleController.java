@@ -4,6 +4,7 @@ import java.util.Map;
 import com.tensquare.common.entity.PageResult;
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.tensquare.article.pojo.Article;
 import com.tensquare.article.service.ArticleService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * article控制器层
@@ -28,6 +32,8 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
+	@Resource
+	private HttpServletRequest httpServletRequest;
 	
 	
 	/**
@@ -79,6 +85,11 @@ public class ArticleController {
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public Result add(@RequestBody Article article  ){
+		Claims claims = (Claims) httpServletRequest.getAttribute("claims_user");
+		if (claims==null){
+			return new Result(true,StatusCode.ACCESS_ERROR,"无权访问");
+		}
+		article.setUserid(claims.getId());
 		articleService.add(article);
 		return new Result(true,StatusCode.OK,"增加成功");
 	}
