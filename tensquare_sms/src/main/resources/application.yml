@@ -1,8 +1,8 @@
 server:
-  port: 9010
+  port: 9008
 spring:
   application:
-    name: tensquare_sms #指定服务名称
+    name: tensquare-sms #指定服务名称
   rabbitmq:
     host: 127.0.0.1
 aliyun:
@@ -11,3 +11,9 @@ aliyun:
     accessKeySecret: IawJXWPqlMvG69lzCcEOBoyvGvwE5G
     template_code: SMS_94700095
     sign_name: 短信测试
+eureka:
+  client:
+    service‐url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer‐ip‐address: true

@@ -1,8 +1,8 @@
 server:
-  port: 9002
+  port: 9006
 spring:
   application:
-    name: tensquare_recruit #指定服务名称
+    name: tensquare-recruit #指定服务名称
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/tensquare_recruit?characterEncoding=utf-8
@@ -12,3 +12,9 @@ spring:
     database: mysql
     show-sql: true
     generate-ddl: true
+eureka:
+  client:
+    service‐url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer‐ip‐address: true

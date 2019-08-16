@@ -10,8 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tensquare_search</artifactId>
 
-
     <dependencies>
+        <!--将微服务都注册到Eureka中-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
         <!--引入对common模块的依赖-->
         <dependency>
             <groupId>com.tensquare</groupId>

@@ -1,8 +1,8 @@
 server:
-  port: 9006
+  port: 9003
 spring:
   application:
-    name: tensquare_friend #指定服务名称
+    name: tensquare-friend #指定服务名称
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/tensquare_friend?characterEncoding=utf-8
@@ -16,3 +16,13 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+jwt:
+  config:
+    key: shang
+    ttl: 3600000
+eureka:
+  client:
+    service‐url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer‐ip‐address: true

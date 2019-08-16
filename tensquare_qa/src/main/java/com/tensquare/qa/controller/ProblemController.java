@@ -6,6 +6,7 @@ import com.tensquare.common.entity.PageResult;
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
 import com.tensquare.common.util.JwtUtil;
+import com.tensquare.qa.client.LabelClient;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,9 @@ public class ProblemController {
 
     @Resource
     private JwtUtil jwtUtil;
+
+    @Resource
+    private LabelClient labelClient;  //远程调用
 
 
     /**
@@ -169,6 +173,15 @@ public class ProblemController {
         Page<Problem> problemPage = problemService.findWaitListByLabelId(labelId, page, size);
         PageResult<Problem> pageResult = new PageResult<>(problemPage.getTotalElements(), problemPage.getContent());
         return new Result(true, StatusCode.OK, "查询成功", pageResult);
+    }
+
+    /**
+     * 调用label客户端的接口,根据ID重新标签
+     */
+    @RequestMapping(value = "/label/{labelid}",method = RequestMethod.GET)
+    public Result findLabelById(@PathVariable String labelid){
+        Result result = labelClient.findById(labelid);
+        return result;
     }
 
 

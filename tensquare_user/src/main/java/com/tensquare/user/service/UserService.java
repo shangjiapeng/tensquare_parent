@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.tensquare.user.dao.UserDao;
 import com.tensquare.user.pojo.User;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * user服务层
@@ -194,6 +195,7 @@ public class UserService {
 
     /**
      * 发送短信验证码
+     *
      * @param mobile
      */
     public void sendSms(String mobile) {
@@ -217,20 +219,37 @@ public class UserService {
 
     /**
      * 根据手机号和密码查询用户信息
+     *
      * @param mobile
      * @return
      */
-    public User findByMobileAndPassWord(String mobile,String password){
+    public User findByMobileAndPassWord(String mobile, String password) {
         User user = userDao.findByMobile(mobile);
         boolean matches = passwordEncoder.matches(password, user.getPassword());
-        if (user!=null&&matches){
+        if (user != null && matches) {
             return user;
-        }else {
+        } else {
             return null;
         }
     }
 
+    /**
+     * 更新粉丝数
+     *
+     * @param x
+     */
+    @Transactional
+    public void incFanscount(String userid, int x) {
+        userDao.incFanscount(userid, x);
+    }
 
+    /**
+     * 更新关注数 * @param x
+     */
+    @Transactional
+    public void incFollowcount(String userid, int x) {
+        userDao.incFollowcount(userid, x);
+    }
 
 
 }

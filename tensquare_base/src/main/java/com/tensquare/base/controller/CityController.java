@@ -1,7 +1,9 @@
 package com.tensquare.base.controller;
-import java.util.List;
 import java.util.Map;
 
+import com.tensquare.common.entity.PageResult;
+import com.tensquare.common.entity.Result;
+import com.tensquare.common.entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,13 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.tensquare.base.pojo.City;
 import com.tensquare.base.service.CityService;
 
-import entity.PageResult;
-import entity.Result;
-import entity.StatusCode;
 /**
  * city控制器层
  * @author Administrator
@@ -37,7 +35,7 @@ public class CityController {
 	 */
 	@RequestMapping(method= RequestMethod.GET)
 	public Result findAll(){
-		return new Result(true,StatusCode.OK,"查询成功",cityService.findAll());
+		return new Result(true, StatusCode.OK,"查询成功",cityService.findAll());
 	}
 	
 	/**

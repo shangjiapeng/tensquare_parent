@@ -1,8 +1,10 @@
 server:
-  port: 9004
+  port: 9001
 spring:
   application:
-    name: tensquare_article #指定服务名称
+    name: tensquare-article #指定服务名称
+  main:
+    allow-bean-definition-overriding: true #当有重名bean对象时,允许覆盖
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/tensquare_article?characterEncoding=utf-8
@@ -19,3 +21,10 @@ spring:
     mongodb:
       host: 127.0.0.1
       database: commentdb  #评论
+eureka:
+  client:
+    service‐url: #eurekaServer地址
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer‐ip‐address: true #当其他服务获取地址时,提供IP而不是hostname
+    ip-address: 127.0.0.1 #指定自己的IP信息,不指定的花会自己寻找

@@ -1,8 +1,8 @@
 server:
-  port: 9008
+  port: 9010
 spring:
   application:
-    name: tensquare_user #指定服务名称
+    name: tensquare-user #指定服务名称
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/tensquare_user?characterEncoding=utf-8
@@ -23,3 +23,9 @@ jwt:
   config:
     key: shang  #jwtToken签名key
     ttl: 3600000 #jwtToken过期时间
+eureka:
+  client:
+    service‐url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer‐ip‐address: true

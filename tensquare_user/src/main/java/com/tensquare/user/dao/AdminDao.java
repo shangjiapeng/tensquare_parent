@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.tensquare.user.pojo.Admin;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * admin数据访问接口
@@ -17,6 +18,7 @@ public interface AdminDao extends JpaRepository<Admin, String>, JpaSpecification
      * @param loginname
      * @return
      */
+    @Query("select admin from Admin admin where admin.loginname=? 1")
     public Admin findByLoginname(String loginname);
 
 }

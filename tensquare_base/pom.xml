@@ -11,6 +11,17 @@
     <artifactId>tensquare_base</artifactId>
 
     <dependencies>
+        <!--将微服务都注册到Eureka中-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--Feign实现服务间的调用-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </dependency>
         <!--引入对common模块的依赖-->
         <dependency>
             <groupId>com.tensquare</groupId>

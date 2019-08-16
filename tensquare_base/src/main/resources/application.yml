@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9002
 spring:
   application:
     name: tensquare-base #指定服务名称
@@ -12,3 +12,9 @@ spring:
     database: mysql
     show-sql: true
     generate-ddl: true
+eureka:
+  client:
+    service‐url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer‐ip‐address: true
