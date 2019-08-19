@@ -19,6 +19,8 @@
         <module>tensquare_search</module>
         <module>tensquare_sms</module>
         <module>tensquare_eureka</module>
+        <module>tensquare_manager</module>
+        <module>tensquare_web</module>
     </modules>
     <packaging>pom</packaging>
     <name>tensquare_parent</name>
