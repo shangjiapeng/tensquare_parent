@@ -10,13 +10,13 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.Date;
 
-//@PropertySource("classpath:config.properties")
-@ConfigurationProperties("jwt.config")
+@PropertySource("classpath:config.properties")
+//@ConfigurationProperties("jwt.config")
 public class JwtUtil {
 
-//    @Value("jwt.config.key")
+    @Value("jwt.config.key")
     private String key;
-//    @Value("jwt.config.ttl")
+    @Value("jwt.config.ttl")
     private long ttl;//一个小时
 
     public String getKey() {

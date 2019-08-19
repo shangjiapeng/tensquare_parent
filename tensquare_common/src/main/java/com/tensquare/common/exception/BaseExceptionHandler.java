@@ -2,6 +2,9 @@ package com.tensquare.common.exception;
 
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,10 +19,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //@RestControllerAdvice
 public class BaseExceptionHandler {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result error(Exception e) {
         e.printStackTrace();
         return new Result<>(false, StatusCode.ERROR, e.getMessage(), null);
     }
+
+    @ExceptionHandler(DataAccessException.class)
+    public Object handleDuplicateKeyException(DataAccessException e){
+        logger.error(e.getMessage(), e);
+        return new Result<>(false, StatusCode.ACCESS_ERROR,"数据库中已存在该记录");
+    }
+
+//    @ExceptionHandler(AuthorizationException.class)
+//    public Object handleAuthorizationException(AuthorizationException e){
+//        logger.error(e.getMessage(), e);
+//        return ResultUtil.error("没有权限，请联系管理员授权");
+//    }
+    
 }
