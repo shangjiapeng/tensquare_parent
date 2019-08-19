@@ -3,12 +3,14 @@ package com.tensquare.base.controller;
 import com.tensquare.common.entity.PageResult;
 import com.tensquare.common.entity.Result;
 import com.tensquare.common.entity.StatusCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import com.tensquare.base.pojo.Label;
 import com.tensquare.base.service.LabelService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,10 @@ public class LabelController {
     @Resource
     private LabelService labelService;
 
+    @Autowired
+    private HttpServletRequest request;
+
+
     /**
      * 查询全部列表
      *
@@ -33,6 +39,7 @@ public class LabelController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public Result<List> findAll() {
+        String header = request.getHeader("Authorization");
         List<Label> labelList = labelService.findAll();
         return new Result<>(true, StatusCode.OK, "查询成功", labelList);
     }

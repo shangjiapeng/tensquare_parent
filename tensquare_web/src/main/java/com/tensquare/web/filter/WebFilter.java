@@ -7,7 +7,7 @@ import com.netflix.zuul.exception.ZuulException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * <p></p>
+ * <p>zuul过滤器</p>
  *
  * @Author: ShangJiaPeng
  * @Since: 2019-08-16 17:01
@@ -37,6 +37,7 @@ public class WebFilter extends ZuulFilter {
     }
 
     /**
+     * 由于经过网关只会,request中的头信息会丢失
      * 过滤器中接收header，转发给微服务
      * 如果有token，直接转发
      * @return
@@ -45,12 +46,14 @@ public class WebFilter extends ZuulFilter {
     @Override //过滤器的具体逻辑
     public Object run() throws ZuulException {
         System.out.println("经过zuul过滤器...");
-        //向header中添加鉴权令牌
+        //得到request的上下文(使用ZUUL内置的RequestContext 对象获取)
         RequestContext requestContext = RequestContext.getCurrentContext();
-        //获取header
+        //得到request域
         HttpServletRequest request = requestContext.getRequest();
+        //获取header
         String authorization = request.getHeader("Authorization");
         if (authorization!=null){
+            //添加网关鉴权请求头
             requestContext.addZuulRequestHeader("Authorization",authorization);
         }
         return null;

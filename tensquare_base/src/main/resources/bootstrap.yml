@@ -1,0 +1,7 @@
+spring:    #注:是springboot内置的配置文件,优先级高于application.yml
+  cloud:
+    config:
+      name: base
+      profile: dev
+      label: master
+      uri: http://127.0.0.1:12000

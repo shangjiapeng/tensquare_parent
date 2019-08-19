@@ -16,8 +16,6 @@ public class City implements Serializable{
 	@Id
 	private String id;//ID
 
-
-	
 	private String name;//城市名称
 	private String ishot;//是否热门
 

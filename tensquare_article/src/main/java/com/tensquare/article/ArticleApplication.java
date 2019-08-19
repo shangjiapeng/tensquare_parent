@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 /**
- * <p>文章</p>
+ * <p>文章微服务</p>
  *
  * @Author: ShangJiaPeng
  * @Since: 2019-08-01 10:38

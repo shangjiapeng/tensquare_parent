@@ -23,8 +23,8 @@ spring:
       database: commentdb  #评论
 eureka:
   client:
-    service‐url: #eurekaServer地址
-      defaultZone: http://localhost:6868/eureka
+    service-url: #eurekaServer地址
+      defaultZone: http://127.0.0.1:6868/eureka
   instance:
-    prefer‐ip‐address: true #当其他服务获取地址时,提供IP而不是hostname
-    ip-address: 127.0.0.1 #指定自己的IP信息,不指定的花会自己寻找
+    prefer-ip-address: true #当其他服务获取地址时,提供IP而不是hostname
+    ip-address: 127.0.0.1 #指定自己的IP信息,不指定的话会自己寻找

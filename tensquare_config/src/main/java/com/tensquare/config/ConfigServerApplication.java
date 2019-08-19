@@ -1,22 +1,21 @@
-package com.tensquare.web;
+package com.tensquare.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
- * <p>网站前台的微服务</p>
+ * <p>springcloud集中配置启动类</p>
  *
  * @Author: ShangJiaPeng
- * @Since: 2019-08-16 17:00
+ * @Since: 2019-08-19 11:53
  */
-
-@EnableZuulProxy
+@EnableConfigServer  // 开启集中配置服务
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-public class WebApplication {
+public class ConfigServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(ConfigServerApplication.class, args);
     }
 }

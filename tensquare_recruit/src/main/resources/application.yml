@@ -14,7 +14,7 @@ spring:
     generate-ddl: true
 eureka:
   client:
-    service‐url:
+    service-url:
       defaultZone: http://localhost:6868/eureka
   instance:
-    prefer‐ip‐address: true
+    prefer-ip-address: true

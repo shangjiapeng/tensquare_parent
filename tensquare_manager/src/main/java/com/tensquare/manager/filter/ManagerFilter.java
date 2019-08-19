@@ -29,7 +29,7 @@ public class ManagerFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return 0;//优先级，数字越大，优先级越低
+        return 0;//优先级，数字越小,越先执行
     }
 
     @Override
@@ -37,11 +37,20 @@ public class ManagerFilter extends ZuulFilter {
         return true;//过滤器开关，true表示开启
     }
 
+    /**
+     * 过滤器内执行的操作,return 任何的object值都表示继续执行
+     * setSendZuulResponse(false);表示不再继续执行
+     * @return
+     * @throws ZuulException
+     */
     @Override
-    public Object run() throws ZuulException {
+    public Object run() throws ZuulException {   //动态代理,方法增强
         System.out.println("经过Zuul过滤器");
+        //使用ZUUL内置RequestContext对象获取请求的上下文
         RequestContext requestContext = RequestContext.getCurrentContext();
+        //得到request域
         HttpServletRequest request = requestContext.getRequest();
+        //判断(OPTIONS 时ZUUL自己在分发请求时的一个方法)
         if (request.getMethod().equals("OPTIONS")) {//判断请求的方式
             return null;
         }
@@ -52,19 +61,26 @@ public class ManagerFilter extends ZuulFilter {
         }
         String authHeader = (String) request.getHeader("Authorization");// 获取头信息
         if (authHeader != null && authHeader.startsWith("Admin ")) {
+            //token
             String token = authHeader.substring(6);
-            Claims claims = jwtUtil.parseJWT(token);
-            if (claims != null) {
-                if ("admin".equals(claims.get("roles"))) {
-                    requestContext.addZuulRequestHeader("Authorization", authHeader);
-                    System.out.println("token 验证通过，添加了头信息" + authHeader);
-                    return null;
+            try {
+                Claims claims = jwtUtil.parseJWT(token);
+                if (claims != null) {
+                    if ("admin".equals(claims.get("roles"))) {
+                        //添加zuul网关请求头
+                        requestContext.addZuulRequestHeader("Authorization", authHeader);
+                        System.out.println("token 验证通过，添加了头信息" + authHeader);
+                        return null;
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                requestContext.setSendZuulResponse(false);//终止运行
             }
         }
-        requestContext.setSendZuulResponse(false);//终止运行
-        requestContext.setResponseStatusCode(StatusCode.ACCESS_ERROR);// http状态码
-        requestContext.setResponseBody("无权访问");
+        requestContext.setSendZuulResponse(false);//令zuul过滤该请求，不对其进行路由
+        requestContext.setResponseStatusCode(StatusCode.ACCESS_ERROR);// 设置了其返回的错误码
+        requestContext.setResponseBody("无权访问"); //设置响应体
         requestContext.getResponse().setContentType("text/html;charset=UTF‐8");
         return null;
     }
