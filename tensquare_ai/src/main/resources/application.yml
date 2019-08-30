@@ -1,0 +1,7 @@
+ai:
+  #语料库汇总文本文件
+  wordLib: /User/shangjiapeng/article/article.txt
+  #语料库的目录
+  dataPath: /User/shangjiapeng/article
+  #词向量模型
+  vecModel: /User/shangjiapeng/article.vecmodel
