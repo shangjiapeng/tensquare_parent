@@ -47,21 +47,19 @@ public class FileUtil {
      */
     public static List<String> getFiles(String path) {
 
-        List<String> fielNames = new ArrayList<>();
+        List<String> fileNames = new ArrayList<>();
         File file = new File(path);
-        File[] tempfiles = file.listFiles();
-        if (tempfiles!=null){
-            for (File tempfile : tempfiles) {
-                //如果是文件
-                if (tempfile.isFile()) {
-                    fielNames.add(tempfile.toString());
+        File[] tempList = file.listFiles();
+        if (tempList != null) {
+            for (int i = 0; i < tempList.length; i++) {
+                if (tempList[i].isFile()) {//如果是文件
+                    fileNames.add(tempList[i].toString());
                 }
-                //如果是文件夹
-                if (tempfile.isDirectory()) {
-                    fielNames.addAll(Objects.requireNonNull(getFiles(tempfile.toString())));
+                if (tempList[i].isDirectory()) {//如果是文件夹
+                    fileNames.addAll(Objects.requireNonNull(getFiles(tempList[i].toString())));
                 }
             }
-            return fielNames;
+            return fileNames;
         }
         return null;
     }
@@ -70,7 +68,7 @@ public class FileUtil {
     /**
      * 读取文本文件内容到字符串
      *
-     * @param fileName
+     * @param fileName  文件名称
      * @return
      */
     public static String readToString(String fileName) throws IOException {

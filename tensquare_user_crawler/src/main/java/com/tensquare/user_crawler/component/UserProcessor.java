@@ -25,10 +25,10 @@ public class UserProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         Html html = page.getHtml();
-        List<String> requestList = html.links().regex("http://blog.csdn.net/[a-z 0-9 -]+article/details/[0-9]{8}").all();
+        List<String> requestList = html.links().regex("https://blog.csdn.net/[a-z 0-9 -]+/article/details/[0-9]{8}").all();
         page.addTargetRequests(requestList);
         String nickname = html.xpath("//*[@id=\"uid\"]/text()").get();
-        String image = html.xpath("//*[@id=\"asideProfile\"]/div[1]/div[1]/a").css("img", "src").toString();
+        String image = html.xpath("//*[@id=\"asideProfile\"]/div[1]/div[1]/a/img[1]").css("img", "src").toString();
         if (nickname != null && image != null) {//如果有昵称和头像
             page.putField("nickname", nickname);
             page.putField("image", image);
