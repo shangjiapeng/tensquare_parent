@@ -2,6 +2,7 @@ package com.tensquare.ai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -14,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @Author: ShangJiaPeng
  * @Since: 2019-08-30 16:15
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableScheduling
 public class AiApplication {
 

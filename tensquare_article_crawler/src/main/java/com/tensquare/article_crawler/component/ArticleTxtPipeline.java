@@ -28,7 +28,6 @@ public class ArticleTxtPipeline implements Pipeline {
 
 
     @Value("${ai.datapath}")
-
     private String dataPath; //存储路径
 
     private String channelId; //频道ID
@@ -38,21 +37,25 @@ public class ArticleTxtPipeline implements Pipeline {
     }
 
     /**
-     * Process extracted results.
+     * 在CSDN上抓取各类文章，并以分词形式保存，词之 间用空格分隔。
      *
      * @param resultItems resultItems
-     * @param task        task
+     * @param task   task
      */
     @Override
-
     public void process(ResultItems resultItems, Task task) {
 
         String title = resultItems.get("title");//获取标题
+        //获取正文并删除html标签,style标签,script标签,只保留文字
         String content = HTMLUtil.delHTMLTag(resultItems.get("content"));  //获取正文并删除html标签
         //将标题+正文分词后保存到相应的文件夹
         try {
-            PrintWriter printWriter = new PrintWriter(new File(dataPath + "/" + channelId + "/" + UUID.randomUUID() + ".txt"));
+            PrintWriter printWriter = new PrintWriter(new File(dataPath + "/" + channelId + "/" + title + ".txt"));
+            //将标题+正文分词后保存到相应的文件夹
             printWriter.print(IKUtil.split(title + " " + content, " "));
+            //不分词直接保存文章内容
+//              printWriter.print(content);
+
             printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

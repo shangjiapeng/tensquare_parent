@@ -1,7 +1,14 @@
+server:
+  port: 9016
+spring:
+  application:
+    name: tensquare-ai #指定服务名
 ai:
   #语料库汇总文本文件
-  wordLib: /User/shangjiapeng/article/article.txt
+  wordLib: /Users/shangjiapeng/article/article.txt
   #语料库的目录
-  dataPath: /User/shangjiapeng/article
+  dataPath: /Users/shangjiapeng/article/java
   #词向量模型
-  vecModel: /User/shangjiapeng/article.vecmodel
+  vecModel: /Users/shangjiapeng/article/article.vecmodel
+  #神经网络卷积模型(连接模型Connection Model) 人工神经网络(Artificial Neural Networks)
+  cnnModel: /Users/shangjiapeng/article/article.cnnmodel

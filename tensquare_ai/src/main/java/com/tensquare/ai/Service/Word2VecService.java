@@ -4,6 +4,7 @@ import com.tensquare.common.util.FileUtil;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.text.sentenceiterator.LineSentenceIterator;
+import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * <p>service</p>
  * 把分词文本内容训练成机器符号
- * 创建可以输入深度神经网络的神经词向量
+ * 创建可以输入深度学习,神经网络的神经词向量
  *
  * @Author: ShangJiaPeng
  * @Since: 2019-08-30 16:43
@@ -23,7 +24,7 @@ import java.util.List;
 public class Word2VecService {
 
     //分词模型路径
-    @Value("${ai.wordLib}}")
+    @Value("${ai.wordLib}")
     private String wordLib;
 
     //爬虫分词后的数据路径
@@ -49,7 +50,7 @@ public class Word2VecService {
     }
 
     /**
-     * 根据分词模型生成 词向量模型
+     * 根据分词模型生成词向量模型
      *
      *参数说明:
      *      minWordFrequency是一个词在语料中必须出现的最少次数。本例中出现不到5次的词都不予学习。
@@ -66,18 +67,19 @@ public class Word2VecService {
         boolean flag = false;
         try {
             //加载爬虫数据集
-            LineSentenceIterator lineSentenceIterator = new LineSentenceIterator(new File(wordLib));
-            Word2Vec word2Vec = new Word2Vec.Builder()
+            SentenceIterator iterator = new LineSentenceIterator(new File(wordLib));
+            Word2Vec vec = new Word2Vec.Builder()
                     .minWordFrequency(5)
                     .iterations(1)
                     .layerSize(100)
-                    .seed(42)
                     .windowSize(5)
-                    .iterate(lineSentenceIterator)
+                    .seed(42)
+                    .iterate(iterator)
                     .build();
+            vec.fit();
             //保存模型之前先删除
             new File(vecModel).delete(); //删除
-            WordVectorSerializer.writeWordVectors(word2Vec,vecModel);
+            WordVectorSerializer.writeWordVectors(vec,vecModel);
             flag=true;
         } catch (IOException e) {
             e.printStackTrace();
